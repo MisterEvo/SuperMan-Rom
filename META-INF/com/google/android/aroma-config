@@ -10,10 +10,10 @@ ini_set("force_colorspace","rgba");
 #
 
 ini_set("rom_name",             "SuperMan-Rom™ ");
-ini_set("rom_version",          "V2.1");
+ini_set("rom_version",          "V2.2");
 ini_set("rom_author",           "Tkkg1994");
 ini_set("rom_device",           "SM-G93XF/FD/K/L/S/W8");
-ini_set("rom_date",             "09.02.2017");
+ini_set("rom_date",             "17.02.2017");
 
 ##
 # Show Animated Splash
@@ -424,16 +424,28 @@ form(
   #-------------+-----------------------[ Selectbox Without Group ]------------------------------#
   # PROP ID     | TITLE            |  SUBTITLE                                   |    Type       #
   #-------------+--------+-------------------------------------------------------+---------------#
-	"build",	"Select your build.prop tweaks",	"",									"group",
-	"none",		"No build.prop tweaks",		"Will keep your build.prop clean from tweaks",					"select",
-	"stock",	"Stock build.prop tweaks",	"Include the stock tweaks like we had them until now",				"select.selected",
-	"max",		"Maximal build.prop tweaks",	"All kind of build.prop tweaks found on the net. Use at your own risk!",	"select",
-	"initd",	"Select your init.d tweaks",	"",										"group",
-	"no",		"No init.d tweaks",		"This is the recommend option to use",						"select.selected",
-	"yes",		"Install init.d tweaks",	"Zipaligns apps and optimize database at startup. Use at your own risk!",	"select"
+	"build",	"Select build.prop tweaks",	"",											"group",
+	"finger",	"Fingerprint after reboot",	"Enables fingerprint right after a reboot without entering your password first (only on modded SystemUI)",	"check.checked",
+	"user",		"Multiuser",			"Enable Multi User in settings and in statusbar",					"check.checked",
+	"fix",		"Screen mirror fix",		"Applies a screen mirror fix (was present all the time before)",			"check.checked",
+	"performance",	"Performance tweaks",		"Adds build.prop tweaks which are known to give better performance",			"check",
+	"powersave",	"Powersaving tweaks",		"Adds build.prop tweaks which are known to enhance batterylife",			"check.checked",
+	"quickpower",	"Faster boot process",		"Decreases your boot time with faster fps",						"check",
+	"network",	"Network tweaks",		"Adds build.prop tweaks which are known to increase network performance",		"check",
+	"camera",	"Camera tweaks",		"Should increase image quality in general",						"check",
+	"signal",	"Signal tweaks",		"Better signal receiption and GPS",							"check",
+	"misc",		"Misc tweaks",			"Misc tweaks I could not sort into a category",						"check",
+	"knox",		"Disable Knox",			"Disables knox strings in settings",							"check",
+	"initd",	"Select init.d tweaks",		"",											"group",
+	"wakelock",	"Wakelock",			"Disables google wakelocks",								"check.checked",
+	"zipalign",	"Zipalign",			"Zipaligns apps startup, boot can take longer",						"check",
+	"vm",		"Background tweaks",		"Tweaks VM/Swappiness/dirty ration at startup",						"check",
+	"sqlite",	"Sqlite",			"Optimizes the databases every week",							"check",
+	"net",		"Network",			"Applies some network tweaks",								"check",
+	"dalvik",	"Dalvik-Cache",			"Moves dalvik files to cache, boot may takes longer",					"check"
 );
 
-alert("Important:", "If you want to install snapchat after this rom, make sure to NOT use root! Snapchat will be UNABLE to login! Install after you logged in to snapchat.");
+alert("Important:", "Snapchat can work with root, if you select Magisk V11.1 below! Follow the steps provided on XDA to get Safetynet working.");
 
 ##
 # Magisk Form
@@ -497,7 +509,7 @@ form(
   #-------------+--------+-------------------------------------------------------+---------------#
 	"camera",	"Camera Selection",		"",											"group",
 	"stock",	"Stock Camera",			"Nothing changed, stock values",							"select.selected",
-	"modded",	"Modded Camera V8",		"Increase bitrates for all camera resolutions and to set pictures at 100 quality.",	"select"
+	"modded",	"Modded Camera V8.1",		"Increase bitrates for all camera resolutions and to set pictures at 100 quality.",	"select"
 );
 
 ##
@@ -576,6 +588,9 @@ form(
 	"systemUI",	"Choose your prefered SystemUI",		"",									"group",
 	"modded",	"Modded SystemUI",		"Includes all romcontrol features, disabled sd card notificaitons, fingerprint after reboot mode and many more features.",		"select.selected",
 	"stock",	"Stock SystemUI",		"No features included in here. Just stock SystemUI as you can find on any rom",		"select",
+	"framework",	"Do you want Ambient display?",		"",										"group",
+	"disabled",	"No Ambient display",		"Disables Ambient display per default. People had unlock lag with it enabled",		"select.selected",
+	"ambient",	"Enable Ambient display",	"Ambient display will enable your screen each time you got a notification (only with AOD)",	"select",
 	"settings",	"Choose your prefered Settings",		"",									"group",
 	"modded",	"Modded Settings",		"SuperMan logo and touchkey light duration enabled",					"select.selected",
 	"stock",	"Stock Settings",		"No special features, all stock in this settings",					"select"
@@ -632,7 +647,7 @@ form(
 	"update",	"Update Modem",			"Will auto update your modem to latest DQB1 on F/FD",				"select.selected",
 	"keep",		"Keep current Modem",		"Will keep your current modem and change nothing",				"select",
 	"bootloader",	"Bootloader update F/FD/W8",	"",										"group",
-	"update",	"Update Bootloader",		"Will auto update your BL to DQB3 on F/FD/ models. Phone will auto reboot!",		"select.selected",
+	"update",	"Update Bootloader",		"Will auto update your BL to DQB7 on F/FD/ models. Phone will auto reboot!",		"select.selected",
 	"keep",		"Keep current Bootloader",	"Will keep your current bootloader and change nothing",				"select"
 );
 
@@ -661,6 +676,8 @@ form(
 	"stock",	"Stock animation",		"Just as always, stock boot/shutdown animation",						"select",
 	"super_black",	"SuperMan black animation",	"New SuperMan bootanimation with black background, all credits to myellow (he's awesome)",	"select.selected",
 	"super_white",	"SuperMan white animation",	"New SuperMan bootanimation with white background, credits to myellow (he's still awesome)",	"select",
+	"super_black3d","SuperMan black 3D animation",	"Even a little bit more updated superman with a 3D animation with black background",		"select",
+	"super_white3d","SuperMan white 3D animation",	"Even a little bit more updated superman with a 3D animation with white background",		"select",
 	"splash",	"Splash Screen",		"",												"group",
 	"stock",	"Stock Splash",			"Stock S7 splash screen will be installed",							"select",
 	"super_black",	"SuperMan black Splash",	"New SuperMan black Splash will be installed",							"select",
@@ -693,32 +710,6 @@ form(
 	"disable",	"Disable by default",	"Disables Adblocker by default. However you can still enable it in the app later",	"select"
 );
 
-##
-# Theme Form
-#
-
-form(
-    "SuperMan theme",
-    "Installs Dark Side of SuperMan theme by Alex74",
-    "icons/install2",
-    "theme.prop",
-  #
-  # Type:
-  #  - group              = Group
-  #  - select             = Select Item
-  #  - select.selected    = Selected Select Item
-  #  - check              = Checkbox Item
-  #  - check.checked      = Checked Checkbox Item
-  #  - hide               = Hidden
-  #
-  #-------------+-----------------------[ Selectbox Without Group ]------------------------------#
-  # PROP ID     | TITLE            |  SUBTITLE                                   |    Type       #
-  #-------------+--------+-------------------------------------------------------+---------------#
-	"darkside",	"Darkside Theme",	"",												"group",
-	"install",	"Install Theme",	"Enables new theme for superman made by Alex74. Colors are blue/black (beautiful design)",	"select",
-	"stock",	"Keep Stock Theme",	"Won't install any theme and keep it stock",							"select.selected"
-);
-
 alert("Attention", "Removing samsung apps can lead to force closes and not working features!");
 
 ##
@@ -748,7 +739,7 @@ checkbox(
 	"Memo",			"Memo App from Samsung",						1,	#-- item.1.3
 	"Mirrorlink",		"",									1,	#-- item.1.4
 	"SBrowser",		"Samsungs own Browser",							1,	#-- item.1.5
-	"SPlanner",		"Planner App and Widget",						1,	#-- item.1.6
+	"Samsung Calendar",	"Planner App and Widget",						1,	#-- item.1.6
 	"Video Editor",		"",									1,	#-- item.1.7
 	"Weather",		"Weather Widget",							1,	#-- item.1.8
 	"Calculator",		"",									1,	#-- item.1.9

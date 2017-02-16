@@ -15,7 +15,7 @@ show_progress(1.000000, 0);
 ui_print(" ");
 ui_print(" ");
 ui_print(" ");
-ui_print("SuperMan-Rom Installer V2.1");
+ui_print("SuperMan-Rom Installer V2.2");
 ui_print(" ");
 ui_print(" ");
 ui_print(" ");
@@ -191,12 +191,6 @@ ifelse(
 					ui_print("Installing modded SystemUI...");
 					package_extract_dir("superman/systemui/modded/s7", "/system/priv-app");
 					package_extract_dir("superman/systemui/minitfiles", "/system/priv-app");
-			if
-				file_getprop("/tmp/aroma/theme.prop","darkside") == "install"
-				then
-					ui_print("Installing themed SystemUI...");
-					package_extract_dir("superman/theme/systemui/s7", "/system/priv-app");
-			endif;
 			endif;
 		),
 		(
@@ -206,15 +200,22 @@ ifelse(
 					ui_print("Installing modded SystemUI...");
 					package_extract_dir("superman/systemui/modded/s7e", "/system/priv-app");
 					package_extract_dir("superman/systemui/minitfiles", "/system/priv-app");
-			if
-				file_getprop("/tmp/aroma/theme.prop","darkside") == "install"
-				then
-					ui_print("Installing themed SystemUI...");
-					package_extract_dir("superman/theme/systemui/s7e", "/system/priv-app");
-			endif;
 			endif;
 		)
 );
+#-- Settings
+if
+	file_getprop("/tmp/aroma/mods.prop","framework") == "disabled"
+	then
+		ui_print("Disabling ambient display...");
+		package_extract_dir("superman/framework/disabledambient", "/system/framework");
+endif;
+if
+	file_getprop("/tmp/aroma/mods.prop","framework") == "ambient"
+	then
+		ui_print("Installing ambient display...");
+		package_extract_dir("superman/framework/ambient", "/system/framework");
+endif;
 #-- Settings
 if
 	file_getprop("/tmp/aroma/mods.prop","settings") == "modded"
@@ -255,19 +256,22 @@ if
 		package_extract_dir("superman/animation/superman_black", "/system/media");
 endif;
 if
+	file_getprop("/tmp/aroma/bootanim.prop","anim") == "super_black3d"
+	then
+		ui_print("Installing black superman 3D animation...");
+		package_extract_dir("superman/animation/superman_black_3d", "/system/media");
+endif;
+if
 	file_getprop("/tmp/aroma/bootanim.prop","anim") == "super_white"
 	then
 		ui_print("Installing white superman animation...");
 		package_extract_dir("superman/animation/superman_white", "/system/media");
 endif;
-#-- Theme
 if
-	file_getprop("/tmp/aroma/theme.prop","darkside") == "install"
+	file_getprop("/tmp/aroma/bootanim.prop","anim") == "super_white3d"
 	then
-		ui_print("Installing SuperMan Theme...");
-		package_extract_dir("superman/theme/app", "/system/app");
-		package_extract_dir("superman/theme/priv-app", "/system/priv-app");
-		package_extract_dir("superman/theme/framework", "/system/framework");
+		ui_print("Installing white superman 3D animation...");
+		package_extract_dir("superman/animation/superman_white_3d", "/system/media");
 endif;
 #-- Model
 ui_print(" ");
@@ -293,15 +297,40 @@ run_program("/tmp/build.prop_tweaks.sh");
 set_progress(0.390000);
 #-- Init.d
 if
-	file_getprop("/tmp/aroma/buildtweaks.prop","initd") == "yes"
+	file_getprop("/tmp/aroma/buildtweaks.prop","wakelock") == "1"
 	then
-		ui_print("Installing init.d tweaks...");
-		package_extract_dir("superman/init.d", "/system/etc/init.d");
+		ui_print("Installing init.d wakelock tweaks...");
+		package_extract_dir("superman/init.d/wakelock", "/system/etc/init.d");
 endif;
 if
-	file_getprop("/tmp/aroma/buildtweaks.prop","initd") == "no"
+	file_getprop("/tmp/aroma/buildtweaks.prop","zipalign") == "1"
 	then
-		ui_print("No init.d tweaks installed...");
+		ui_print("Installing init.d zipalign tweaks...");
+		package_extract_dir("superman/init.d/zip", "/system/etc/init.d");
+endif;
+if
+	file_getprop("/tmp/aroma/buildtweaks.prop","vm") == "1"
+	then
+		ui_print("Installing init.d VM tweaks...");
+		package_extract_dir("superman/init.d/vm", "/system/etc/init.d");
+endif;
+if
+	file_getprop("/tmp/aroma/buildtweaks.prop","sqlite") == "1"
+	then
+		ui_print("Installing init.d sqlite tweaks...");
+		package_extract_dir("superman/init.d/sqlite", "/system/etc/init.d");
+endif;
+if
+	file_getprop("/tmp/aroma/buildtweaks.prop","net") == "1"
+	then
+		ui_print("Installing init.d network tweaks...");
+		package_extract_dir("superman/init.d/net", "/system/etc/init.d");
+endif;
+if
+	file_getprop("/tmp/aroma/buildtweaks.prop","dalvik") == "1"
+	then
+		ui_print("Installing init.d dalvik tweaks...");
+		package_extract_dir("superman/init.d/dalvik", "/system/etc/init.d");
 endif;
 #-- Adblocker
 if
@@ -401,12 +430,6 @@ if
 	then
 		ui_print("Installing Gallery...");
 		package_extract_dir("superman/debloat/Gallery", "/system/priv-app");
-if
-	file_getprop("/tmp/aroma/theme.prop","darkside") == "install"
-	then
-		ui_print("Installing themed Gallery...");
-		package_extract_dir("superman/theme/debloat", "/system/priv-app");
-endif;
 endif;
 if
 	file_getprop("/tmp/aroma/samsung.prop","item.1.13") == "1"
@@ -1330,7 +1353,7 @@ if
 			is_substring("G930F", getprop("ro.boot.bootloader")),
 				(
 					ui_print(" ");
-					ui_print("Flashing latest DQB3 G930F/FD param file");
+					ui_print("Flashing latest DQB7 G930F/FD param file");
 					assert(package_extract_file("superman/bootloader/s7/param.bin", "/dev/block/sda4"));
 					ui_print(" ");
 				),
@@ -1339,7 +1362,7 @@ if
 					is_substring("G935F", getprop("ro.boot.bootloader")),
 						(
 							ui_print(" ");
-							ui_print("Flashing latest DQB3 G935F/FD param file");
+							ui_print("Flashing latest DQB7 G935F/FD param file");
 							assert(package_extract_file("superman/bootloader/s7e/param.bin", "/dev/block/sda4"));
 							ui_print(" ");
 						),
